@@ -1,0 +1,19 @@
+
+
+
+query AttributesList {
+  attributes(first: 100, filter: {filterableInStorefront: true}) {
+    edges {
+      node {
+        name
+        choices(first: 10) {
+          edges {
+            node {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

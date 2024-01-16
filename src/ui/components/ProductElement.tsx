@@ -1,3 +1,4 @@
+'use client'
 import { LinkWithChannel } from "../atoms/LinkWithChannel";
 import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
 
