@@ -91,7 +91,6 @@ const stripeGateway = (options: PaymentGatewayOptions) => {
 		}: ConfirmPaymentData & {
 			redirect?: "always" | "if_required";
 		}) {
-			// const { stripe, elements } = await initializeStripeClient();
 			invariant(clientSDK && elements, "clientSDK not initiated.");
 
 			/**
@@ -119,7 +118,7 @@ const stripeGateway = (options: PaymentGatewayOptions) => {
 		},
 
 		mount(targetSelector: string) {
-			invariant(elements, "nope");
+			invariant(elements, "clientSDK not initiated.");
 
 			paymentElement = elements.create("payment");
 			paymentElement.mount(targetSelector);
