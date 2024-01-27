@@ -13,3 +13,6 @@ export const getByUnmatchingId =
 export const isValidEmail = async (email: string) => {
 	return string().required().email().isValidSync(email);
 };
+
+export const gatewayAppId = `app.saleor.stripe`;
+// export const gatewayAppId = `app.saleor.adyen`;

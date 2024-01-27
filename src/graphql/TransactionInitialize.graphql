@@ -1,0 +1,24 @@
+mutation TransactionInitialize(
+  $id: ID!,
+  $data: JSON
+	$amount: PositiveDecimal
+) {
+	transactionInitialize(
+    id: $id,
+		amount: $amount,
+    paymentGateway: { id: "app.saleor.stripe", data: $data }
+  ) {
+		transaction {
+			id
+		}
+		transactionEvent {
+			id
+		}
+		data
+		errors {
+			field
+			message
+			code
+		}
+	}
+}

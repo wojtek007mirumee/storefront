@@ -1,48 +1,19 @@
-mutation CheckoutCreate($channel: String!) {
-	checkoutCreate(input: { channel: $channel, lines: [] }) {
+mutation CheckoutCreate(
+	$channel: String!
+	$lines: [CheckoutLineInput!]!
+	$shippingAddress: AddressInput
+	$billingAddress: AddressInput
+	$email: String
+) {
+	checkoutCreate(input: {
+		channel: $channel,
+		lines: $lines,
+		email: $email,
+		shippingAddress: $shippingAddress,
+		billingAddress: $billingAddress,
+	}) {
 		checkout {
-			id
-			email
-			lines {
-				id
-				quantity
-				totalPrice {
-					gross {
-						amount
-						currency
-					}
-				}
-				variant {
-					product {
-						id
-						name
-						slug
-						thumbnail {
-							url
-							alt
-						}
-						category {
-							name
-						}
-					}
-					pricing {
-						price {
-							gross {
-								amount
-								currency
-							}
-						}
-					}
-					name
-					id
-				}
-			}
-			totalPrice {
-				gross {
-					amount
-					currency
-				}
-			}
+			...Checkout
 		}
 		errors {
 			field

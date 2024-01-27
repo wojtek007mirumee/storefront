@@ -1,0 +1,72 @@
+fragment Checkout on Checkout {
+  id
+  email
+  shippingMethods {
+    id
+    name
+  }
+  shippingAddress {
+    id
+  }
+  billingAddress {
+    id
+  }
+  deliveryMethod {
+    ...on Warehouse {
+      id
+      name
+    }
+    ...on ShippingMethod {
+      id
+      name
+    }
+  }
+  availablePaymentGateways {
+    name
+    id
+    config {
+      field
+      value
+    }
+  }
+  lines {
+    id
+    quantity
+    totalPrice {
+      gross {
+        amount
+        currency
+      }
+    }
+    variant {
+      product {
+        id
+        name
+        slug
+        thumbnail {
+          url
+          alt
+        }
+        category {
+          name
+        }
+      }
+      pricing {
+        price {
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+      name
+      id
+    }
+  }
+  totalPrice {
+    gross {
+      amount
+      currency
+    }
+  }
+}

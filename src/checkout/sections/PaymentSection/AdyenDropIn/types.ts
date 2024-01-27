@@ -28,8 +28,6 @@ export interface AdyenTransactionProcessResponse {
 	paymentDetailsResponse: AdyenPaymentResponse;
 }
 
-// -------
-
 export type ApplePayCallback = <T>(value: T) => void;
 
 export type AdyenCheckoutInstanceState = {
