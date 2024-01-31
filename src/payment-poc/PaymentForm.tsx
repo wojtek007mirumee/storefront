@@ -36,11 +36,13 @@ export const PaymentForm = ({ clientSecret, publicKey }: { clientSecret: string;
 			return;
 		}
 
+		// factory function to pay
 		await paymentGateway.pay({ return_url: getRedirectUrl() });
 	};
 
 	useEffect(() => {
 		(async () => {
+			// stripe preapre factory
 			const paymentGateway = paymentGatewayService({
 				gatewayAppId,
 				onPaymentSuccess: handlePaymentSuccess,
@@ -49,12 +51,16 @@ export const PaymentForm = ({ clientSecret, publicKey }: { clientSecret: string;
 
 			setPaymentGateway(paymentGateway);
 
+			// stripe iniclizacja factory
 			await paymentGateway.initializeClientSDK(publicKey, clientSecret);
 
+			// zamootowanie z factory
 			paymentGateway.mount(`#${paymentElementId}`);
 
 			setIsInitializing(false);
-			return () => paymentGateway.unmount();
+
+			// umonut z facotry
+			return () => paymentGateway.unmount(); // this wont work it needs to be from higher scope of useEffect
 		})();
 	}, []);
 

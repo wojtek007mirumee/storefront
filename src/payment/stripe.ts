@@ -74,12 +74,14 @@ const stripeGateway = (options: PaymentGatewayOptions) => {
 
 		async initializeClientSDK(publicKey: string, secretKey: string) {
 			if (!clientSDK) {
+				// stripe lib stripe do fe 
 				clientSDK = await loadStripe(publicKey, { apiVersion: API_VERSION });
 
 				invariant(clientSDK, "Could not load stripe.");
 			}
 
 			if (!elements) {
+				// stripe create elements , connectedto to payment secret
 				elements = clientSDK.elements({ clientSecret: secretKey });
 				invariant(elements, "Could not create stripe elements instance.");
 			}
@@ -96,9 +98,10 @@ const stripeGateway = (options: PaymentGatewayOptions) => {
 			/**
 			 * Using always upon successful payment client will be always redirected to `confirmParams.return_url`.
 			 */
+			// stripowy sdk confirm payment method call
 			const { paymentIntent, error } = await clientSDK.confirmPayment({
 				elements,
-				redirect: redirect as any,
+				redirect: redirect as any, // redirect to confirm page	after payment , but there is other way if needed
 				confirmParams: opts,
 			});
 
@@ -114,6 +117,7 @@ const stripeGateway = (options: PaymentGatewayOptions) => {
 
 			invariant(paymentIntent, "Unexpected payment intent state.");
 
+			// if requeired than this are url params retuend for self redirect 
 			return { id: paymentIntent.id, secret: paymentIntent.client_secret, data: paymentIntent };
 		},
 

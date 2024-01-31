@@ -9,6 +9,7 @@ import { Loader } from "@/payment-poc/Loader";
 import { paymentGatewayService } from "@/payment/service";
 import { gatewayAppId } from "@/checkout/lib/utils/common";
 
+// 2 x saleor
 export const TransactionInitialize = ({ checkout }: { checkout: CheckoutFragment }) => {
 	const [processing, setProcessing] = useState(false);
 	const { refresh } = useRouter();
@@ -30,7 +31,7 @@ export const TransactionInitialize = ({ checkout }: { checkout: CheckoutFragment
 			}
 		}
 
-		await paymentGateway.initializeSaleorTransaction(checkout.id);
+		// await paymentGateway.initializeSaleorTransaction(checkout.id);
 
 		const { errors, transactionId, publicKey, secretKey } = await paymentGateway.initializeSaleorTransaction(
 			checkout.id,
