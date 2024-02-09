@@ -6,48 +6,24 @@ import { StripeComponent } from "@/payment-poc/StripeComponent";
 import { TransactionInitialize } from "@/payment-poc/TransactionInitialize";
 import { ClearCookiesButton } from "@/payment-poc/ClearCookiesButton";
 import { InitializePaymentBtn } from "./components/initialize-payment-btn";
-import { Payment } from "./components/payment";
+import { Payment } from "./payment";
 import { gatewayAppId } from "@/checkout/lib/utils/common";
+import { redirect } from 'next/navigation';
 
-export default async function Page({
+export default async function Loading({
 	searchParams,
 	params,
 }: {
 	searchParams: Record<
-		"query" | "cursor" | "checkoutId" | "secretKey" | "publicKey",
+		"query" | "cursor" | "checkoutId",
 		string | string[] | undefined
 	>;
 	params: { channel: string };
 }) {
 	const checkoutId = searchParams?.checkoutId ?? cookies().get("checkoutId")?.value;
-	const secretKey = cookies().get("secretKey")?.value;
-	const publicKey = cookies().get("publicKey")?.value;
-
-	let checkout = null;
-
-	if (checkoutId) {
-		checkout = (
-			await executeGraphQL(CheckoutFindDocument, {
-				variables: { id: checkoutId },
-				revalidate: 60,
-			})
-		).checkout;
-	}
 
 	return (
-		<section className="mx-auto max-w-7xl p-8 pb-16">
-			<h1 className="pb-8 text-xl font-semibold">
-				<pre>{gatewayAppId}</pre>
-			</h1>
-			{!checkoutId && <CheckoutCreate />}
-
-
-			{checkout &&
-
-				<Payment checkout={checkout} secretKey={secretKey} publicKey={publicKey} />
-			}
-			<br />
-			<ClearCookiesButton />
-		</section>
+		<p>Loading... checkoutId:{checkoutId}</p>
+		// <Payment checkout={checkout} />
 	);
 }

@@ -10,19 +10,20 @@ import {
  * Variables needed are specific per payment app
  */
 export const initializeSaleorTransaction: PaymentTransactionInitialize = async (variables) => {
-	const { transactionInitialize } = await executeGraphQL(TransactionInitializeDocument, {
+	const { transactionInitialize, } = await executeGraphQL(TransactionInitializeDocument, {
 		withAuth: false,
 		variables,
 		cache: "no-store",
 	});
+	console.log('transactionInitialize', transactionInitialize)
 
 	const errors = transactionInitialize?.errors ?? [];
 	const intentData = transactionInitialize?.data as
 		| undefined
 		| {
-				publishableKey: string;
-				paymentIntent: { client_secret: string };
-		  };
+			publishableKey: string;
+			paymentIntent: { client_secret: string };
+		};
 
 	const publicKey = intentData?.publishableKey;
 	const secretKey = intentData?.paymentIntent?.client_secret;
@@ -36,6 +37,8 @@ export const initializeSaleorTransaction: PaymentTransactionInitialize = async (
 		publicKey,
 		secretKey,
 		transactionId: transactionInitialize!.transaction!.id,
+		transactionEventType: transactionInitialize?.transactionEvent?.type,
+		transactionData: transactionInitialize?.data
 	};
 };
 
@@ -55,7 +58,9 @@ export const initializeSaleorPaymentGateway: PaymentGatewayInitialize = async (v
 		({ id }) => id === variables.gatewayAppId,
 	)?.data as undefined | { publishableKey: string };
 	const publicKey = initializeData?.publishableKey;
-
+	// clientKey: data.gatewayClientContext.publishableKey,
+	// environment: data.gatewayClientContext.pspEnvironment,
+	// paymentMethodsResponse: data.pspData,
 	if (errors.length || !publicKey) {
 		return { errors, publicKey: null };
 	}
